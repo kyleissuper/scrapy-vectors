@@ -10,7 +10,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setuptools.setup(
     name="scrapy-vectors",
     version=__version__,
-    license="BSD",
+    license="ISC",
     description="Vector embeddings generation and storage for Scrapy",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -20,7 +20,7 @@ setuptools.setup(
     packages=["scrapy_vectors"],
     classifiers=[
         "Development Status :: 0.1.0",
-        "License :: OSI Approved :: BSD License",
+        "License :: OSI Approved :: ISC License (ISCL)",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",

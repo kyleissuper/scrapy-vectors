@@ -1,5 +1,11 @@
 # scrapy-vectors
 
+[![Tests](https://github.com/kyleissuper/scrapy-vectors/actions/workflows/tests.yml/badge.svg)](https://github.com/kyleissuper/scrapy-vectors/actions/workflows/tests.yml)
+[![Code Quality](https://github.com/kyleissuper/scrapy-vectors/actions/workflows/checks.yml/badge.svg)](https://github.com/kyleissuper/scrapy-vectors/actions/workflows/checks.yml)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![PyPI version](https://badge.fury.io/py/scrapy-vectors.svg)](https://badge.fury.io/py/scrapy-vectors)
+
 Vector embeddings generation and storage for Scrapy spiders.
 
 ## Features
