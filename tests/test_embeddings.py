@@ -19,7 +19,9 @@ def embedding_pipeline(monkeypatch):  # pylint: disable=unused-argument
             "usage": {"prompt_tokens": 5, "total_tokens": 5},
         }
 
-    mock_litellm_obj = type("MockLiteLLM", (), {"api_key": None, "embedding": mock_embedding})
+    mock_litellm_obj = type(
+        "MockLiteLLM", (), {"api_key": None, "embedding": mock_embedding}
+    )
     monkeypatch.setattr("scrapy_vectors.embeddings.litellm", mock_litellm_obj)
     return EmbeddingsLiteLLMPipeline(api_key="test-key")
 
@@ -40,7 +42,9 @@ class TestEmbeddingsLiteLLMPipeline:
         pipeline = EmbeddingsLiteLLMPipeline.from_crawler(crawler)
         assert pipeline.model == "cohere/embed-english-v3.0"
 
-    def test_process_item(self, embedding_pipeline):  # pylint: disable=redefined-outer-name
+    def test_process_item(
+        self, embedding_pipeline
+    ):  # pylint: disable=redefined-outer-name
         item = {
             "id": "123",
             "page_content": "Hello world",
@@ -57,24 +61,40 @@ class TestEmbeddingsLiteLLMPipeline:
         assert result["metadata"]["title"] == "Test Item"
         assert result["metadata"]["source"] == "test.pdf"
 
-        # Extra fields should be preserved (JsonLines exporter handles final format)
+        # Extra fields should be preserved
+        # (JsonLines exporter handles final format)
         assert result["url"] == "https://example.com"
         assert result["timestamp"] == "2024-01-01"
 
     @pytest.mark.parametrize(
         ("item", "description"),
         [
-            ({"id": "123", "metadata": {"title": "Test"}}, "missing page_content"),
             (
-                {"id": "123", "page_content": "", "metadata": {"title": "Test"}},
+                {"id": "123", "metadata": {"title": "Test"}},
+                "missing page_content",
+            ),
+            (
+                {
+                    "id": "123",
+                    "page_content": "",
+                    "metadata": {"title": "Test"},
+                },
                 "empty page_content",
             ),
             (
-                {"id": "123", "page_content": None, "metadata": {"title": "Test"}},
+                {
+                    "id": "123",
+                    "page_content": None,
+                    "metadata": {"title": "Test"},
+                },
                 "None page_content",
             ),
             (
-                {"id": "123", "page_content": 12345, "metadata": {"title": "Test"}},
+                {
+                    "id": "123",
+                    "page_content": 12345,
+                    "metadata": {"title": "Test"},
+                },
                 "invalid type page_content",
             ),
         ],

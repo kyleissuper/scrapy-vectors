@@ -18,19 +18,24 @@ class TestS3VectorsFeedStorage:
         settings = {"AWS_REGION_NAME": "us-west-2"}
         crawler = get_crawler(settings_dict=settings)
 
-        storage = S3VectorsFeedStorage.from_crawler(crawler, "s3-vectors://bucket/index")
+        storage = S3VectorsFeedStorage.from_crawler(
+            crawler, "s3-vectors://bucket/index"
+        )
         assert storage.region_name == "us-west-2"
         assert storage.bucket == "bucket"
         assert storage.index == "index"
 
     def test_store(self):
-        storage = S3VectorsFeedStorage("s3-vectors://bucket/index", region_name="us-east-1")
+        storage = S3VectorsFeedStorage(
+            "s3-vectors://bucket/index", region_name="us-east-1"
+        )
         verifyObject(IFeedStorage, storage)
         storage.client = mock.MagicMock()
 
         # Create test JSONL data with multiple records and empty line
         test_data = (
-            b'{"id": "doc1", "values": [0.1, 0.2], "metadata": {"source": "test"}}\n'
+            b'{"id": "doc1", "values": [0.1, 0.2], '
+            b'"metadata": {"source": "test"}}\n'
             b"\n"  # Empty line should be filtered out
             b'{"id": "doc2", "values": [0.3, 0.4], "metadata": '
             b'{"source": "file.pdf", "page": 5}}\n'
@@ -54,6 +59,10 @@ class TestS3VectorsFeedStorage:
                     "data": {"float32": [0.3, 0.4]},
                     "metadata": {"source": "file.pdf", "page": 5},
                 },
-                {"key": "doc3", "data": {"float32": [0.5, 0.6]}, "metadata": {}},
+                {
+                    "key": "doc3",
+                    "data": {"float32": [0.5, 0.6]},
+                    "metadata": {},
+                },
             ],
         )

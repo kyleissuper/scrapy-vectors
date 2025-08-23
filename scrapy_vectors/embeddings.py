@@ -52,7 +52,8 @@ class EmbeddingsLiteLLMPipeline:
 
     Settings:
         LITELLM_API_KEY: API key for the embedding provider (required)
-        LITELLM_EMBEDDING_MODEL: Model to use (default: openai's "text-embedding-3-small")
+        LITELLM_EMBEDDING_MODEL: Model to use
+            (default: openai's "text-embedding-3-small")
     """
 
     def __init__(
@@ -89,7 +90,9 @@ class EmbeddingsLiteLLMPipeline:
             )
             return item
 
-        response = litellm.embedding(model=self.model, input=page_content, num_retries=3)
+        response = litellm.embedding(
+            model=self.model, input=page_content, num_retries=3
+        )
         embedding = response["data"][0]["embedding"]
 
         adapter["id"] = str(adapter["id"])

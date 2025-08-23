@@ -16,7 +16,7 @@ classifiers = [
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10", 
+    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
@@ -37,5 +37,6 @@ Homepage = "https://github.com/kyleissuper/scrapy-vectors"
 Repository = "https://github.com/kyleissuper/scrapy-vectors"
 Issues = "https://github.com/kyleissuper/scrapy-vectors/issues"
 
-[tool.black]
-line-length = 99
+
+[tool.bandit]
+exclude_dirs = ["tests"]

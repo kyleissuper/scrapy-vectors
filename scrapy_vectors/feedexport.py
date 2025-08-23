@@ -40,20 +40,26 @@ class S3VectorsFeedStorage(BlockingFeedStorage):
 
         u = urlparse(uri)
         if not u.hostname:
-            raise NotConfigured(f"invalid S3 vectors URI: missing bucket name in '{uri}'")
+            raise NotConfigured(
+                f"invalid S3 vectors URI: missing bucket name in '{uri}'"
+            )
         index_path = u.path.lstrip("/")
         if not index_path:
-            raise NotConfigured(f"invalid S3 vectors URI: missing index name in '{uri}'")
+            raise NotConfigured(
+                f"invalid S3 vectors URI: missing index name in '{uri}'"
+            )
         if not region_name:
             raise NotConfigured(
                 "S3 Vectors requires a region to be specified. "
-                "Set AWS_REGION_NAME in settings or pass region_name parameter."
+                "Set AWS_REGION_NAME in settings or pass "
+                "region_name parameter."
             )
 
         self.region_name: str = region_name
         self.index: str = index_path
         self.bucket: str = u.hostname
-        # S3 Vectors type stubs available in mypy-boto3-s3vectors, but not in base boto3-stubs
+        # S3 Vectors type stubs available in mypy-boto3-s3vectors,
+        # but not in base boto3-stubs
         self.client = boto3.client(
             "s3vectors", region_name=region_name
         )  # type: ignore[call-overload]
@@ -74,7 +80,9 @@ class S3VectorsFeedStorage(BlockingFeedStorage):
 
     def _store_in_thread(self, file: IO[bytes]) -> None:
         file.seek(0)
-        vectors = [parsed for raw in file if (parsed := self._parse_line(raw)) is not None]
+        vectors = [
+            parsed for raw in file if (parsed := self._parse_line(raw)) is not None
+        ]
         if vectors:
             self.client.put_vectors(
                 vectorBucketName=self.bucket,
@@ -91,7 +99,9 @@ class S3VectorsFeedStorage(BlockingFeedStorage):
         return {
             "key": rec["id"],
             "data": {"float32": rec["values"]},
-            # Metadata automatically becomes filterable in S3 Vectors by default
-            # Supports queries like: {"source": "file.pdf"}, {"year": {"$gte": 2020}}
+            # Metadata automatically becomes filterable in S3 Vectors
+            # by default
+            # Supports queries like: {"source": "file.pdf"},
+            # {"year": {"$gte": 2020}}
             "metadata": rec.get("metadata", {}),
         }
