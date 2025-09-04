@@ -27,12 +27,17 @@ ITEM_PIPELINES = {
     # Outputs as jsonlines in Pinecone format, which s3-vectors can use
     "scrapy_vectors.EmbeddingsLiteLLMPipeline": 300,
 }
+EXTENSIONS = {
+    "scrapy.extensions.feedexport.FeedExporter": None,  # Disable standard
+    "scrapy_vectors.S3VectorsFeedExporter": 300,        # Use custom
+}
 FEED_STORAGES = {
     "s3-vectors": "scrapy_vectors.S3VectorsFeedStorage",
 }
 FEEDS = {
     "s3-vectors://vectors-bucket/vectors-index": {
         "format": "jsonlines",
+        "batch_item_count": 100,
     }
 }
 
@@ -53,7 +58,7 @@ import scrapy
 class MySpider(scrapy.Spider):
     name = "example"
     start_urls = ["https://example.com"]
-    
+
     # Must yield with: id, page_content, and metadata
     def parse(self, response):
         yield {

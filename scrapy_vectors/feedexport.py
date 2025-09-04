@@ -10,7 +10,7 @@ from typing import IO, TYPE_CHECKING, Any
 from urllib.parse import urlparse
 
 from scrapy.exceptions import NotConfigured
-from scrapy.extensions.feedexport import BlockingFeedStorage, IFeedStorage
+from scrapy.extensions.feedexport import BlockingFeedStorage, IFeedStorage, FeedExporter
 from zope.interface import implementer
 
 if TYPE_CHECKING:
@@ -105,3 +105,12 @@ class S3VectorsFeedStorage(BlockingFeedStorage):
             # {"year": {"$gte": 2020}}
             "metadata": rec.get("metadata", {}),
         }
+
+
+class S3VectorsFeedExporter(FeedExporter):
+    def _settings_are_valid(self):
+        for uri_template, _ in self.feeds.items():
+            if not uri_template.startswith("s3-vectors://"):
+                logger.error("Invalid URI: %s", uri_template)
+                return False
+        return True

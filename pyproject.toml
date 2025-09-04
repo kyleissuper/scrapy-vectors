@@ -38,5 +38,8 @@ Repository = "https://github.com/kyleissuper/scrapy-vectors"
 Issues = "https://github.com/kyleissuper/scrapy-vectors/issues"
 
 
+[tool.setuptools]
+packages = ["scrapy_vectors"]
+
 [tool.bandit]
 exclude_dirs = ["tests"]

@@ -13,6 +13,7 @@ pip-wheel-metadata/
 .coverage
 .coverage.*
 htmlcov/
+coverage/
 coverage.xml
 coverage-*.xml
 coverage-asyncio/
