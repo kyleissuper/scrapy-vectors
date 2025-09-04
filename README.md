@@ -13,6 +13,13 @@ Vector embeddings generation and storage for Scrapy spiders.
 - **Embeddings Pipeline**: Generate vector embeddings using LiteLLM (supports OpenAI, Cohere, and other providers)
 - **S3 Vectors Storage**: Store embeddings in AWS S3 Vectors service
 
+## Platform Support
+
+**Supported Platforms:**
+- ✅ **Linux** - Fully supported
+- ✅ **macOS** - Fully supported
+- ❌ **Windows** - Not supported (requires `uvloop` to use `litellm[proxy]`, which is Unix-only)
+
 ## Installation
 
 ```bash
